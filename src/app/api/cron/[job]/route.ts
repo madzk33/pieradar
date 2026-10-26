@@ -13,6 +13,9 @@ const JOBS: Record<string, () => Promise<unknown>> = {
   refresh: () => refreshDue(300, 8),
   live: () => liveTick(),
   history: () => syncHistory(),
+  // One daily catch-all for hosts that only allow daily crons (Vercel Hobby);
+  // visits drive the frequent jobs (see lib/sync/freshness.ts).
+  daily: async () => ({ history: await syncHistory(), discover: await discoverSweep(200), refresh: await refreshDue(300, 8) }),
 };
 
 export async function GET(req: Request, { params }: { params: Promise<{ job: string }> }) {

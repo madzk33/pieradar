@@ -19,11 +19,18 @@ function sessionKey(): Buffer {
   let secret = process.env.BROKER_SESSION_SECRET;
   if (!secret) {
     const file = path.join(process.cwd(), ".data", "broker-session-secret");
-    if (existsSync(file)) secret = readFileSync(file, "utf8").trim();
-    else {
+    try {
+      if (existsSync(file)) secret = readFileSync(file, "utf8").trim();
+      else {
+        secret = randomBytes(32).toString("hex");
+        mkdirSync(path.dirname(file), { recursive: true });
+        writeFileSync(file, secret, { mode: 0o600 });
+      }
+    } catch {
+      // Read-only filesystem (serverless) without BROKER_SESSION_SECRET: connections
+      // still work but only last until this instance is recycled.
+      console.warn("[broker] set BROKER_SESSION_SECRET so connected accounts survive restarts");
       secret = randomBytes(32).toString("hex");
-      mkdirSync(path.dirname(file), { recursive: true });
-      writeFileSync(file, secret, { mode: 0o600 });
     }
   }
   cachedKey = createHash("sha256").update(secret).digest();
