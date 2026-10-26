@@ -43,3 +43,8 @@ next-env.d.ts
 !.env.example
 .playwright-mcp/
 .next-*/
+
+# assistant tooling added by integrations
+.agents/
+.claude/
+skills-lock.json

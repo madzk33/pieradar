@@ -1,0 +1,14 @@
+# Never upload local secrets, data or tooling
+.env*
+!.env.example
+.data
+.vercel
+.next
+.next-*
+node_modules
+.playwright-mcp
+.agents
+.claude
+skills-lock.json
+scripts/_*
+tests
