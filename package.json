@@ -45,5 +45,7 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5"
-  }
+  },
+  "license": "MIT",
+  "author": "Zainul Abid"
 }

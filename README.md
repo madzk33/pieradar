@@ -109,3 +109,7 @@ Runs against an isolated database (`.data/test`) and covers the return engine, r
 ## Disclaimer
 
 PieRadar is an independent project, not affiliated with Trading 212. It's for information only and isn't financial advice. Past performance, especially when back-applied to current weights, doesn't predict future results.
+
+## License
+
+[MIT](LICENSE) © 2026 Zainul Abid
