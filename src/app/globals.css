@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/* Trading 212-inspired dark palette. */
+@theme {
+  --color-bg: #0a0c10;
+  --color-surface: #12151b;
+  --color-surface-2: #181c24;
+  --color-surface-3: #20252f;
+  --color-line: #232833;
+  --color-line-strong: #2e3542;
+  --color-fg: #f3f5f8;
+  --color-muted: #8b94a3;
+  --color-dim: #5d6573;
+  --color-up: #23c26b;
+  --color-up-soft: #23c26b1f;
+  --color-down: #f6475d;
+  --color-down-soft: #f6475d1f;
+  --color-accent: #2e8cff;
+  --color-accent-soft: #2e8cff22;
+  --color-gold: #f5b942;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-card: 18px;
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-bg);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hide scrollbars on horizontal chip rails while keeping them scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) {
+  .hover-lift:hover {
+    border-color: var(--color-line-strong);
+    background: var(--color-surface-2);
+  }
+}
+
+/* Value flash when a live number changes. */
+@keyframes flash-up {
+  0% { background-color: #23c26b40; }
+  100% { background-color: transparent; }
+}
+@keyframes flash-down {
+  0% { background-color: #f6475d40; }
+  100% { background-color: transparent; }
+}
+.flash-up { animation: flash-up 1.2s var(--ease-out-quint); }
+.flash-down { animation: flash-down 1.2s var(--ease-out-quint); }
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-2);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, #ffffff0a, transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flash-up, .flash-down, .skeleton::after { animation: none; }
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
