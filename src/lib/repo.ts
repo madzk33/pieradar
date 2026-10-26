@@ -392,7 +392,8 @@ export async function getLive(ids: string[]): Promise<Record<string, LiveEntry>>
 export async function getIndexStats() {
   return cached("stats", 10, async () => {
     const db = await getDb();
-    const day = new Date(Date.now() - 86_400_000);
+    // ISO string, not a Date: the postgres-js driver rejects Date objects in raw sql`` params.
+    const day = new Date(Date.now() - 86_400_000).toISOString();
     const [counts] = await db
       .select({
         active: sql<number>`count(*) filter (where ${pies.status} = 'active' and ${pies.lastSyncedAt} is not null)::int`,
